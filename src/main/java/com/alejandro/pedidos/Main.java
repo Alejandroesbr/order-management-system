@@ -1,79 +1,81 @@
 package com.alejandro.pedidos;
-import com.alejandro.pedidos.models.Pedido;
-import com.alejandro.pedidos.services.SistemaPedidos;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+
 import javax.swing.JOptionPane;
+
+import com.alejandro.pedidos.models.Order;
+import com.alejandro.pedidos.services.OrderSystem;
 
 public class Main {
     public static void main(String[] args) { 
-        Scanner sc = new Scanner(System.in); // Scanner para leer la entrada del usuario
+        Scanner sc = new Scanner(System.in); // Scanner to read user input
 
-        SistemaPedidos sistemaPedidos = new SistemaPedidos(); // Crear una instancia del sistema de pedidos
-        int opcion; // Variable para almacenar la opcion del usuario
-        do // Bucle para mostrar el menu hasta que el usuario decida salir
-        try { // Manejo de excepciones para entradas no validas
-            System.out.println("Menu de opciones:");
-            System.out.println("1. Agregar pedido");
-            System.out.println("2. Listar pedidos");
-            System.out.println("3. Buscar pedido por ID");
-            System.out.println("4. Eliminar pedido por ID");
-            System.out.println("5. Salir");
-            System.out.print("Seleccione una opcion: ");
-            opcion = sc.nextInt(); // Lee la opcion del usuario
+        OrderSystem orderSystem = new OrderSystem(); // Create an instance of the ordering system
+        int opcion; // Variable to store the user's choice
+        do // Loop to display the menu until the user decides to exit
+        try { // Exception handling for invalid entries
+            System.out.println("Options menu:");
+            System.out.println("1. Add order");
+            System.out.println("2. List orders");
+            System.out.println("3. Search order by ID");
+            System.out.println("4. Delete order by ID");
+            System.out.println("5. Exit");
+            System.out.print("Select an option: ");
+            opcion = sc.nextInt(); // Read the user's option
 
-            switch (opcion) { // Estructura switch para manejar las diferentes opciones
+            switch (opcion) { // Switch structure to handle the different options
                 case 1->{
-                    // Lógica para agregar pedido
+                    // Logic for adding an order
             System.out.print("ID: "); int id = sc.nextInt(); sc.nextLine();
-            System.out.print("Cliente: "); String cliente = sc.nextLine();
-            System.out.print("Producto: "); String producto = sc.nextLine();
-            System.out.print("Cantidad: "); int cantidad = sc.nextInt(); sc.nextLine();
-            System.out.print("Precio: "); double precio = sc.nextDouble(); sc.nextLine();
-            System.out.print("Estado: "); String estado = sc.nextLine();
-            Pedido nuevoPedido = new Pedido(id, cliente, producto, cantidad, precio, estado); // Creamos el objeto Pedido 
-            sistemaPedidos.agregarPedido(nuevoPedido); // llamamos al metodo agregarPedido para agregar el nuevo pedido
-            System.out.println("Pedido agregado");
+            System.out.print("Customer: "); String customer = sc.nextLine();
+            System.out.print("Product: "); String product = sc.nextLine();
+            System.out.print("Quantity: "); int quantity = sc.nextInt(); sc.nextLine();
+            System.out.print("Price: "); double price = sc.nextDouble(); sc.nextLine();
+            System.out.print("Status: "); String status = sc.nextLine();
+            Order newOrder = new Order(id, customer, product, quantity, price, status); // We create the object = Order. 
+            orderSystem.addOrder(newOrder); // llamamos al metodo addOrder para agregar el nuevo pedido
+            System.out.println("Order added");
                 }
                 case 2->{
-                    // Lógica para listar pedidos
-            sistemaPedidos.listarPedido(); // llamamos al metodo listarPedido para mostrar todos los pedidos
+                    // LLogic for listing orders
+            orderSystem.listOrder(); // We call the listOrder method to display all orders.
                 }
                 case 3->{
-                    // Lógica para buscar pedido por ID
-            System.out.print("Ingrese el ID del pedido a buscar: "); int idbusqueda = sc.nextInt();
-            sistemaPedidos.buscarPedido(idbusqueda); // llamamos al metodo buscarPedido con el idbusqueda
-                        System.out.println("ID encontrado");
+                    // Logic for searching orders by ID
+            System.out.print("Enter the order ID to search: "); int idsearch = sc.nextInt();
+            orderSystem.searchOrder(idsearch); // We call the searchOrder method with the idsearch.
+                        System.out.println("ID found.");
                 }
                 case 4->{
-                // Lógica para eliminar pedido por IDº
-            System.out.print("Ingrese el ID del pedido a eliminar: "); int idbusqueda = sc.nextInt();
+                // Logic for deleting orders by ID
+            System.out.print("Enter the order ID to delete: "); int idbusqueda = sc.nextInt();
             
-            int respuesta = JOptionPane.showConfirmDialog(null, "¿Está seguro de que desea eliminar esto?", "Confirmar", JOptionPane.YES_NO_OPTION);
-                if (respuesta == JOptionPane.YES_OPTION) { // Código para el caso afirmativo
-            System.out.println("Acción confirmada");
+            int answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this order?", "Confirm", JOptionPane.YES_NO_OPTION);
+                if (answer == JOptionPane.YES_OPTION) { // Code for affirmative answer
+            System.out.println("Action confirmed");
 
-            sistemaPedidos.eliminarPedido(idbusqueda); // llamamos al metodo eliminarPedido con el idbusqueda
-            System.out.println("Pedido eliminado");
+            orderSystem.deleteOrder(idbusqueda); // We call the deleteOrder method with the searchID.
+            System.out.println("Order deleted");
 
-                } else { // Código para el caso negativo o cancelar
-            System.out.println("Acción cancelada");
+                } else { // Code for negative case or cancel
+            System.out.println("Action cancelled");
 
                 }
                 }
                 case 5->{
-                    // Logica para salir del programa    
-            System.out.println("Saliendo del programa...");
+                    //   Logic for exiting the program  
+            System.out.println("Exiting the program...");
                 }       
                 default->{ 
-                    // Manejo de opcion no valida
-                    System.out.println("Opcion no valida. Intente de nuevo.");
+                    // Handling of invalid option
+                    System.out.println("Invalid option. Please try again.");
             } 
         }
     }
-        catch (InputMismatchException e) { // Captura excepcion de tipo InputMismatchException
-            System.out.println("Error: Solo se permiten números enteros, no letras ni signos.");
-            sc.next(); // Limpiar el buffer de entrada
+        catch (InputMismatchException e) { // Capture exception of type InputMismatchException
+            System.out.println("Error: Only integers are allowed, no letters or symbols.");
+            sc.next(); // Clear the input buffer    
         opcion = 0;
             } while(opcion != 5);
         sc.close();
